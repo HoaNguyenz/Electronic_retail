@@ -1,0 +1,6 @@
+fastapi         # FastAPI for building the API
+uvicorn        # ASGI server for running FastAPI
+flask          # Alternative Flask framework (optional)
+pymssql        # Microsoft SQL Server connector for Python
+python-dotenv  # For environment variables (storing database credentials)
+bcrypt        # For password hashing
