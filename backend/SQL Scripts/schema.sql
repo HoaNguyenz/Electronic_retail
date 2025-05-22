@@ -71,7 +71,7 @@ CREATE TABLE Orders (
     OrderID INT PRIMARY KEY IDENTITY(1,1),
     CustomerID INT,
     OrderDate DATE,
-    Status VARCHAR(50),
+    Status VARCHAR(50), -- In cart, Pending, Completed, Canceled
     TotalAmount DECIMAL(10,2),
     FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
 );
