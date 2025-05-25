@@ -188,22 +188,35 @@ def get_order_history(customer_id):
         conn = get_db_connection()
         cursor = conn.cursor(as_dict=True)
 
+        # Get all orders for the customer
         cursor.execute("""
-            SELECT OrderID, TotalAmount, Status
+            SELECT OrderID, TotalAmount, Status, OrderDate
             FROM Orders
-            WHERE CustomerID = %s
+            WHERE CustomerID = %s AND Status != 'In Cart'
             ORDER BY OrderID DESC
         """, (customer_id,))
         orders = cursor.fetchall()
 
-        # Format as a list of dicts
-        history = [
-            {
+        history = []
+        for order in orders:
+            # For each order, get item names and quantities
+            cursor.execute("""
+                SELECT p.Name AS product_name, oi.Quantity
+                FROM OrderItem oi
+                JOIN Product p ON oi.ProductID = p.ProductID
+                WHERE oi.OrderID = %s
+            """, (order["OrderID"],))
+            items = cursor.fetchall()
+            item_list = [
+                {"name": item["product_name"], "quantity": item["Quantity"]}
+                for item in items
+            ]
+            history.append({
                 "order_id": order["OrderID"],
-                "total": float(order["TotalAmount"])
-            }
-            for order in orders
-        ]
+                "total": float(order["TotalAmount"]),
+                "order_date": str(order["OrderDate"]) if order["OrderDate"] else None,
+                "items": item_list
+            })
         return history
 
     except Exception as e:

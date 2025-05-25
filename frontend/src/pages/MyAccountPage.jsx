@@ -17,7 +17,10 @@ const MyAccountPage = () => {
       case "Địa chỉ":
         return <Address></Address>;
       case "Đăng xuất":
-        return <Order></Order>;
+        // Clear localStorage and redirect to home
+          localStorage.clear();
+          window.location.href = "/";
+          return null;
       default:
         return <Order></Order>;
     }

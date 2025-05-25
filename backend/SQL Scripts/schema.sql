@@ -5,8 +5,7 @@ USE E_Retail;
 CREATE TABLE Category (
     CategoryID INT PRIMARY KEY IDENTITY(1,1),
     CategoryName VARCHAR(100),
-    ParentCategoryID INT NULL,
-    FOREIGN KEY (ParentCategoryID) REFERENCES Category(CategoryID)
+
 );
 
 CREATE TABLE Supplier (
@@ -56,6 +55,7 @@ CREATE TABLE Product (
     CategoryID INT,
     SupplierID INT,
     WarrantyPeriod INT,
+    Marketting_Img VARCHAR(255),
     FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID),
     FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID)
 );

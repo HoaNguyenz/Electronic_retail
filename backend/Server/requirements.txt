@@ -4,3 +4,4 @@ flask          # Alternative Flask framework (optional)
 pymssql        # Microsoft SQL Server connector for Python
 python-dotenv  # For environment variables (storing database credentials)
 bcrypt        # For password hashing
+flask-cors  # For handling CORS in Flask (optional)

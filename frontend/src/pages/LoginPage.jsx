@@ -1,18 +1,37 @@
 import React, { useState } from "react";
 import bg from "../assets/bg.png";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
+import { login_user } from "../services/auth";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
-    //API dang nhap
+    setError("");
+
+    try {
+      const response = await login_user(email, password);
+      if (response?.message === "Login successful") {
+        localStorage.setItem("user", JSON.stringify(response));
+        navigate("/");
+      } else {
+        setError(response?.message || "Đăng nhập thất bại!");
+      }
+    } catch (err) {
+      const errorMsg =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        "Đăng nhập thất bại!";
+      setError(errorMsg);
+    }
   };
+
   return (
     <div
       className="w-full h-screen flex justify-center items-center bg-cover bg-center"
@@ -46,8 +65,11 @@ const LoginPage = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-secondary hover:border-primary"
             />
-            <span onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-10 text-gray-500 hover:text-primary">
-                {showPassword ? <LuEye size={20}></LuEye> : <LuEyeClosed size={20}></LuEyeClosed>}
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-10 text-gray-500 hover:text-primary cursor-pointer"
+            >
+              {showPassword ? <LuEye size={20} /> : <LuEyeClosed size={20} />}
             </span>
           </div>
 
@@ -58,9 +80,17 @@ const LoginPage = () => {
             Đăng nhập
           </button>
 
-          <div className="flex justify-between">
-            <p className="justify-start">Chưa có tài khoản?</p>
-            <a href="/sign-up" className="justify-end font-medium hover:text-primary">Đăng kí</a>
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded relative text-center">
+              {error}
+            </div>
+          )}
+
+          <div className="flex justify-between text-sm">
+            <p>Chưa có tài khoản?</p>
+            <a href="/sign-up" className="font-medium hover:text-primary">
+              Đăng kí
+            </a>
           </div>
         </form>
       </div>

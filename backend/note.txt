@@ -1,0 +1,6 @@
+list all existing database:
+SELECT name FROM sys. databases
+
+DROP DATABASE databasename;
+
+- Using extension in VS Code -> hightligh the code for executing

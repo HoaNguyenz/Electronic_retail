@@ -28,13 +28,27 @@ SELECT * FROM Admin;
 SELECT * FROM Product;
 
 -- Show all tuples from Inventory
-SELECT * FROM Inventory;
-
+SELECT * FROM Inventory;    
+SELECT * FROM Inventory JOIN Product ON Inventory.ProductID = Product.ProductID;
 -- Show all tuples from Orders
 SELECT * FROM Orders;
 
 -- Show all tuples from OrderItem
 SELECT * FROM OrderItem;
+
+-- Corrected join query
+SELECT *
+FROM Product
+JOIN OrderItem ON Product.ProductID = OrderItem.ProductID
+JOIN Orders ON OrderItem.OrderID = Orders.OrderID;
+
+-- Another valid join query
+SELECT *
+FROM Product
+JOIN OrderItem ON Product.ProductID = OrderItem.ProductID;
+
+
+        
 
 -- Show all tuples from Payment
 SELECT * FROM Payment;
@@ -44,3 +58,5 @@ SELECT * FROM Shipping;
 
 -- Show all tuples from Review
 SELECT * FROM Review;
+
+-- Test user: lethaihung142@gmail.com 111111111

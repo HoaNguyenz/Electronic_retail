@@ -1,0 +1,16 @@
+my-react-app/
+│── node_modules/  # Contains installed dependencies
+│── public/        # Holds static files like index.html, favicon.ico
+│── src/           # Main source code folder
+│   ├── assets/    # Static assets like images, fonts, etc.
+│   ├── components/ # Reusable UI components
+│   ├── pages/     # Different pages or views of the app
+│   ├── hooks/     # Custom React hooks
+│   ├── context/   # Context API providers
+│   ├── utils/     # Utility functions
+│   ├── services/  # API calls and external services
+│   ├── App.js     # Root component
+│   ├── index.js   # Entry point of the app
+│── .gitignore     # Specifies ignored files for Git
+│── package.json   # Project metadata & dependencies
+│── README.md      # Documentation for the project

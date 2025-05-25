@@ -7,32 +7,43 @@
     - **Method**: `POST`
     - **Description**: Allows users (Admin or Customer) to register a new account.
     - **Request Body**:
-      ```json
-      {
-          "first_name": "string",
-          "last_name": "string",
-          "email": "string",
-          "phone": "string",
-          "address": "string",
-          "city": "string",
-          "state": "string",
-          "zip_code": "string",
-          "password": "string",
-          "user_type": "string" // "Admin" or "Customer"
-      }
-      ```
+    ```json
+    {
+        "first_name": "string",
+        "last_name": "string",
+        "email": "string",
+        "phone": "string",
+        "address": "string",
+        "city": "string",
+        "state": "string",
+        "zip_code": "string",
+        "password": "string",
+        "user_type": "string" // "Admin" or "Customer"
+    }
+    ```
     - **Response**:
-      - **Success**: 
+    - **Success** (Customer):
         ```json
         {
-            "message": "User registered successfully"
+            "message": "User registered successfully",
+            "email": "string",
+            "name": "string",
+            "customer_id": "int"
         }
         ```
-      - **Error**:
+    - **Success** (Admin):
         ```json
         {
-            "error": "Database error",
-            "details": "string"
+            "message": "User registered successfully",
+            "email": "string",
+            "name": "string",
+            "admin_id": "int"
+        }
+        ```
+    - **Error**:
+        ```json
+        {
+            "error": "Database error: ...details..."
         }
         ```
 
@@ -41,122 +52,133 @@
     - **Method**: `POST`
     - **Description**: Allows users to log in to their account.
     - **Request Body**:
-      ```json
-      {
-          "email": "string",
-          "password": "string"
-      }
-      ```
+    ```json
+    {
+        "email": "string",
+        "password": "string"
+    }
+    ```
     - **Response**:
-      - **Success**:
+    - **Success** (Customer):
         ```json
         {
             "message": "Login successful",
-            "user_type": "string" // "Admin" or "Customer"
+            "user_type": "Customer",
+            "email": "string",
+            "name": "string",
+            "customer_id": "int"
         }
         ```
-      - **Failure**:
+    - **Success** (Admin):
+        ```json
+        {
+            "message": "Login successful",
+            "user_type": "Admin",
+            "email": "string",
+            "name": "string",
+            "admin_id": "int"
+        }
+        ```
+    - **Failure**:
         ```json
         {
             "message": "Invalid credentials"
         }
         ```
-      - **Error**:
+    - **Error**:
         ```json
         {
-            "error": "Database error",
-            "details": "string"
+            "error": "Database error: ...details..."
         }
         ```
-          
-1. Product management (admin side): 
-   - **Description**: Admins can add, update, and remove products from the catalog.
+    1. Product management (admin side): 
+    - **Description**: Admins can add, update, and remove products from the catalog.
 
-   ### Insert Product
-   - **Path**: `/admin/add_product`
-   - **Method**: `POST`
-   - **Request Body**:
-     ```json
-     {
-         "name": "string",
-         "description": "string",
-         "price": "float",
-         "category_id": "int",
-         "supplier_id": "int",
-         "warranty_period": "int"
-     }
-     ```
-   - **Response**:
-     - **Success**:
-       ```json
-       {
-           "success": true,
-           "message": "Product created successfully."
-       }
-       ```
-     - **Error**:
-       ```json
-       {
-           "success": false,
-           "error": "Error message"
-       }
-       ```
+    ### Insert Product
+    - **Path**: `/admin/add_product`
+    - **Method**: `POST`
+    - **Request Body**:
+        ```json
+        {
+            "name": "string",
+            "description": "string",
+            "price": "float",
+            "category_id": "int",
+            "supplier_id": "int",
+            "warranty_period": "int"
+        }
+        ```
+    - **Response**:
+        - **Success**:
+        ```json
+        {
+            "success": true,
+            "message": "Product created successfully."
+        }
+        ```
+        - **Error**:
+        ```json
+        {
+            "success": false,
+            "error": "Error message"
+        }
+        ```
 
-   ### Update Product
-   - **Path**: `/admin/update_product`
-   - **Method**: `POST`
-   - **Request Body**:
-     ```json
-     {
-         "product_id": "int",           // Required
-         "name": "string",              // Optional
-         "description": "string",       // Optional
-         "price": "float",              // Optional
-         "category_id": "int",          // Optional
-         "supplier_id": "int",          // Optional
-         "warranty_period": "int"       // Optional
-     }
-     ```
-   - **Response**:
-     - **Success**:
-       ```json
-       {
-           "success": true,
-           "message": "Product updated successfully."
-       }
-       ```
-     - **Error**:
-       ```json
-       {
-           "success": false,
-           "error": "Error message"
-       }
-       ```
+    ### Update Product
+    - **Path**: `/admin/update_product`
+    - **Method**: `POST`
+    - **Request Body**:
+        ```json
+        {
+            "product_id": "int",           // Required
+            "name": "string",              // Optional
+            "description": "string",       // Optional
+            "price": "float",              // Optional
+            "category_id": "int",          // Optional
+            "supplier_id": "int",          // Optional
+            "warranty_period": "int"       // Optional
+        }
+        ```
+    - **Response**:
+        - **Success**:
+        ```json
+        {
+            "success": true,
+            "message": "Product updated successfully."
+        }
+        ```
+        - **Error**:
+        ```json
+        {
+            "success": false,
+            "error": "Error message"
+        }
+        ```
 
-   ### Delete Product
-   - **Path**: `/admin/remove_product`
-   - **Method**: `POST`
-   - **Request Body**:
-     ```json
-     {
-         "product_id": "int"
-     }
-     ```
-   - **Response**:
-     - **Success**:
-       ```json
-       {
-           "success": true,
-           "message": "Product removed successfully."
-       }
-       ```
-     - **Error**:
-       ```json
-       {
-           "success": false,
-           "error": "Error message"
-       }
-       ```
+    ### Delete Product
+    - **Path**: `/admin/remove_product`
+    - **Method**: `POST`
+    - **Request Body**:
+        ```json
+        {
+            "product_id": "int"
+        }
+        ```
+    - **Response**:
+        - **Success**:
+        ```json
+        {
+            "success": true,
+            "message": "Product removed successfully."
+        }
+        ```
+        - **Error**:
+        ```json
+        {
+            "success": false,
+            "error": "Error message"
+        }
+        ```
 
 2. Product browsing and search:
     - **Path**: `/products`
@@ -164,6 +186,7 @@
     - **Description**: Allows customers to browse and search for products using various filters such as category, price range, brand, and rating.
     - **Query Parameters**:
         + category_id (optional): Filters products by category ID.
+        + category_name (optional): Filters products by category name.
         + min_price (optional): Filters products with a price greater than or equal to the + specified value.
         + max_price (optional): Filters products with a price less than or equal to the specified value.
         + brand (optional): Filters products by brand name.
@@ -198,6 +221,8 @@
                 GET /products
         + Filter by category: 
                 GET /products?category_id=1
+                or 
+                GET /products?category_name=Mobile_phone
         + Filter by price range:
                 GET /products?min_price=100&max_price=500
         + Filter by brand:
@@ -459,7 +484,7 @@
     #### **Fetch Order History**
     - **Path**: `/order/history`
     - **Method**: `GET`
-    - **Description**: Retrieves a list of all past orders for a specific customer, including order status and total amount.
+    - **Description**: Retrieves a list of all past orders for a specific customer, including order status, total amount, and order date.
     - **Query Parameters**:
         - `customer_id` (required): The ID of the customer whose order history is to be fetched.
     - **Response**:
@@ -468,7 +493,8 @@
             [
                 {
                     "order_id": "int",
-                    "total": "float"
+                    "total": "float",
+                    "order_date": "string" // e.g., "2024-06-01"
                 },
                 ...
             ]
@@ -536,7 +562,7 @@
             ```
 
     **Notes**:
-    - Customers can view all their past orders and track the status of each order.
+    - Customers can view all their past orders and track the status and date of each order.
     - Each order includes a list of purchased items and their details.
 
 7. Reviews & Ratings
@@ -634,3 +660,88 @@
     - Description: 
         + Allows admins to create discount codes and special offers.
         + Users can apply promo codes at checkout.
+
+10. Marketing functions
+
+    #### **Fetch Marketing Images**
+    - **Path**: `/products/marketing`
+    - **Method**: `GET`
+    - **Description**: Returns a list of marketing image URLs for products (up to 5).
+    - **Response**:
+        - **Success**:
+            ```json
+            {
+                "links": [
+                    "https://example.com/image1.jpg",
+                    "https://example.com/image2.jpg",
+                    ...
+                ]
+            }
+            ```
+        - **Error**:
+            ```json
+            {
+                "error": "No imgs found"
+            }
+            ```
+            ```json
+            {
+                "error": "An unexpected error occured",
+                "details": "string"
+            }
+            ```
+
+11. Product page:
+
+    #### **Fetch Product Detail**
+    - **Path**: `/product`
+    - **Method**: `GET`
+    - **Description**: Returns all relevant details of a product, including inventory information, for adding to cart.
+    - **Query Parameters**:
+        - `product_id` (required): The ID of the product to fetch.
+    - **Response**:
+        - **Success**:
+            ```json
+            {
+                "product": {
+                    "ProductID": "int",
+                    "Name": "string",
+                    "Description": "string",
+                    "Price": "float",
+                    "CategoryID": "int",
+                    "CategoryName": "string",
+                    "SupplierID": "int",
+                    "SupplierName": "string",
+                    "WarrantyPeriod": "int",
+                    "Marketting_Img": "string",
+                    "QuantityInStock": "int",
+                    "ReorderLevel": "int",
+                    "AvgRating": "float",
+                    "reviews": [
+                        {
+                            "Rating": "int",
+                            "Comment": "string",
+                            "ReviewDate": "string",
+                            "CustomerID": "int"
+                        },
+                        ...
+                    ]
+                }
+            }
+            ```
+        - **Error**:
+            ```json
+            {
+                "error": "Product not found."
+            }
+            ```
+            ```json
+            {
+                "error": "Database error",
+                "details": "string"
+            }
+            ```
+
+    **Notes:**
+    - The response includes product information, inventory (stock), supplier, category, average rating, and up to 3 recent reviews.
+    - Use this endpoint to display product details and check inventory before adding to cart.

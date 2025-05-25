@@ -66,7 +66,7 @@ def order_his():
             return jsonify({"error": "Missing customer_id", "status": 400})
         
         result = get_order_history(customer_id)
-        
+        print(result)
         return jsonify(result)
     except Exception as e:
         return jsonify({"error": "Unexpected server error", "details": str(e), "status": 500})
